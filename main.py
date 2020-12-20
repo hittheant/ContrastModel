@@ -22,8 +22,8 @@ if __name__ == '__main__':
 
     model = AMDIM(encoder='resnet18', pretrained='imagenet2012')
 
-    imagenet_data_train = torchvision.datasets.ImageNet('../imagenet/', split='train')
-    imagenet_data_val = torchvision.datasets.ImageNet('../imagenet/', split='val')
+    imagenet_data_train = torchvision.datasets.ImageNet(args.data_dir, split='train')
+    imagenet_data_val = torchvision.datasets.ImageNet(args.data_dir, split='val')
 
     train_data_loader = torch.utils.data.DataLoader(imagenet_data_train,
                                                     batch_size=64,
