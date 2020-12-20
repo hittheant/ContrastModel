@@ -6,6 +6,7 @@ import torch
 import os
 from torch.utils.data import Dataset, DataLoader
 from pl_bolts.models.self_supervised import AMDIM
+import pytorch_lightning as pl
 
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
@@ -19,10 +20,19 @@ if __name__ == '__main__':
     if not os.path.exists(args.save_dir):
         os.mkdir(args.save_dir)
 
-    model = AMDIM(encoder='resnet18')
+    model = AMDIM(encoder='resnet18', pretrained='imagenet2012')
 
-    imagenet_data = torchvision.datasets.ImageNet('path/to/imagenet_root/')
-    data_loader = torch.utils.data.DataLoader(imagenet_data,
-                                              batch_size=64,
-                                              shuffle=True,
-                                              num_workers=2)
+    imagenet_data_train = torchvision.datasets.ImageNet('../imagenet/', split='train')
+    imagenet_data_val = torchvision.datasets.ImageNet('../imagenet/', split='val')
+
+    train_data_loader = torch.utils.data.DataLoader(imagenet_data_train,
+                                                    batch_size=64,
+                                                    shuffle=True,
+                                                    num_workers=2)
+    val_data_loader = torch.utils.data.DataLoader(imagenet_data_val,
+                                                  batch_size=64,
+                                                  shuffle=True,
+                                                  num_workers=2)
+
+    trainer = pl.Trainer()
+    trainer.fit(model, train_data_loader, val_data_loader)
