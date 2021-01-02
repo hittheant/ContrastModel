@@ -1,7 +1,9 @@
 import random
+import utils
 from torch.utils.data import Dataset
 from torchvision import transforms
 from PIL import Image
+
 
 class ImageFilesDataset(Dataset):
 
@@ -28,3 +30,10 @@ class ImageFilesDataset(Dataset):
 
     def __len__(self):
         return len(self.image_paths)
+
+
+class ImageFolderDataset(ImageFilesDataset):
+
+    def __init__(self, image_dir, grayscale=False, training=False):
+        image_paths = utils.recursive_folder_image_paths(image_dir)
+        super().__init__(image_paths, grayscale, training)

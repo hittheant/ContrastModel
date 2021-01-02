@@ -1,12 +1,10 @@
-import utils
 import torch
 import os
-import random
 import pytorch_lightning as pl
-from torch.utils.data import Dataset, DataLoader
+from torch.utils.data import DataLoader
 from pl_bolts.models.self_supervised import AMDIM
 from argparse import ArgumentParser
-from dataset import ImageFilesDataset
+from dataset import ImageFolderDataset
 
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
@@ -21,12 +19,8 @@ if __name__ == '__main__':
 
     model = AMDIM(encoder='resnet18', pretrained='imagenet2012')
 
-    files = utils.recursive_folder_image_paths(args.data_dir)
-    random.shuffle(files)
-    train_files = files[:int(args.train_test_ratio * len(files))]
-    test_files = files[int(args.train_test_ratio * len(files)):]
-    train_set = ImageFilesDataset(train_files, grayscale=args.grayscale, training=True)
-    test_set = ImageFilesDataset(test_files, grayscale=args.grayscale, training=False)
+    train_set = ImageFolderDataset(os.path.join(args.data_dir, 'train'), training=True)
+    test_set = ImageFolderDataset(os.path.join(args.data_dir, 'test'), training=False)
 
     train_loader = DataLoader(train_set, batch_size=32, shuffle=True, num_workers=4)
     test_loader = DataLoader(test_set, batch_size=32, shuffle=False, num_workers=4)
