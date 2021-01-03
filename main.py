@@ -2,7 +2,7 @@ import torch
 import os
 import pytorch_lightning as pl
 from torch.utils.data import DataLoader
-from pl_bolts.models.self_supervised import AMDIM
+from pl_bolts.models.self_supervised import SimCLR
 from argparse import ArgumentParser
 from dataset import ImageFolderDataset
 
@@ -17,7 +17,7 @@ if __name__ == '__main__':
     if not os.path.exists(args.save_dir):
         os.mkdir(args.save_dir)
 
-    model = AMDIM(encoder='resnet18', pretrained='imagenet2012')
+    model = SimCLR()
 
     train_set = ImageFolderDataset(os.path.join(args.data_dir, 'train'), training=True)
     test_set = ImageFolderDataset(os.path.join(args.data_dir, 'test'), training=False)
