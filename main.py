@@ -17,10 +17,10 @@ if __name__ == '__main__':
     if not os.path.exists(args.save_dir):
         os.mkdir(args.save_dir)
 
-    model = SimCLR()
-
     train_set = ImageFolderDataset(os.path.join(args.data_dir, 'train'), training=True)
     test_set = ImageFolderDataset(os.path.join(args.data_dir, 'test'), training=False)
+
+    model = SimCLR(num_samples=(len(train_set) + len(test_set)), batch_size=32)
 
     train_loader = DataLoader(train_set, batch_size=32, shuffle=True, num_workers=4)
     test_loader = DataLoader(test_set, batch_size=32, shuffle=False, num_workers=4)
