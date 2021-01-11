@@ -20,7 +20,7 @@ class ImageFilesDataset(Dataset):
     def __getitem__(self, item):
         image = Image.open(self.image_paths[item])
         images = self.transform(image)
-        return images, None
+        return images, 1
 
     def __len__(self):
         return len(self.image_paths)
