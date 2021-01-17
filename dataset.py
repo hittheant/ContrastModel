@@ -1,6 +1,6 @@
 import random
 
-from pl_bolts.models.self_supervised.simclr import SimCLRTrainDataTransform
+from utils import SimCLRTrainDataTransform
 import utils
 from torch.utils.data import Dataset
 from PIL import Image
