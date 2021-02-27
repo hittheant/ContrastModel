@@ -26,6 +26,6 @@ if __name__ == '__main__':
     model = SimCLR(gpus=4, num_samples=(len(train_set) + len(test_set)),
                    batch_size=32, dataset=train_loader)
 
-    trainer = pl.Trainer()
+    trainer = pl.Trainer(gpus=4)
     trainer.fit(model, train_loader, test_loader)
     model.freeze()
