@@ -40,4 +40,4 @@ if __name__ == '__main__':
     print(sort_index[0:5])
     for index in sort_index[0:5]:
         image = Image.open(image_paths[index])
-        image.show()
+        image.save('results/' + str(index) + '.jpeg')
