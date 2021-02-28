@@ -1,6 +1,7 @@
 import utils
 import numpy as np
 import torch
+from tqdm import tqdm
 import torchvision.transforms as transforms
 from pl_bolts.models.self_supervised import SimCLR
 from argparse import ArgumentParser
@@ -14,7 +15,7 @@ if __name__ == '__main__':
 
     image_paths = utils.recursive_folder_image_paths(args.data_dir)
 
-    model = SimCLR(batch_size=32, num_samples=len(image_paths))
+    model = SimCLR(gpus=1, batch_size=32, num_samples=len(image_paths))
     try:
         model.load_from_checkpoint(args.model_dir)
     except RuntimeError as e:
@@ -22,18 +23,17 @@ if __name__ == '__main__':
 
     transform = transforms.Compose([transforms.Resize((32, 32)), transforms.ToTensor()])
     model.eval()
-    x = torch.empty(len(image_paths), 3, 32, 32)
-    for i, p in enumerate(image_paths):
+    y = np.empty((len(image_paths), 8192), float)
+    for i, p in enumerate(tqdm(image_paths)):
         image = Image.open(p)
         image = image.convert('RGB')
         image = transform(image).unsqueeze_(0)
-        x[i, :, :, :] = image
-    print(x.shape)
-    y_hat = (model(x))
-    y_hat = y_hat.detach().numpy().reshape(y_hat.shape[0], -1)
-    #y_hat = y_hat / y_hat.max(axis=0)
-    print(y_hat.shape)
-    y_comp = np.abs(np.array(y_hat) - np.array(y_hat[80]))
+        y_hat = (model(image))
+        y_hat = y_hat.detach().numpy().reshape(1, -1)
+        y[i, :] = y_hat
+
+    print(y.shape)
+    y_comp = np.abs(np.array(y) - np.array(y[80]))
     y_comp = np.sum(y_comp, axis=1)
     sort_index = np.argsort(y_comp)
     print(sort_index[0:5])
