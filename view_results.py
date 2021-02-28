@@ -3,7 +3,6 @@ import numpy as np
 import torch
 import torchvision.transforms as transforms
 from pl_bolts.models.self_supervised import SimCLR
-import tensorflow as tf
 from argparse import ArgumentParser
 from PIL import Image
 
