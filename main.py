@@ -20,12 +20,12 @@ if __name__ == '__main__':
     train_set = ImageFolderDataset(os.path.join(args.data_dir, 'train'), training=True)
     test_set = ImageFolderDataset(os.path.join(args.data_dir, 'test'), training=False)
 
-    train_loader = DataLoader(train_set, batch_size=128, shuffle=True, num_workers=4)
-    test_loader = DataLoader(test_set, batch_size=128, shuffle=False, num_workers=4)
+    train_loader = DataLoader(train_set, batch_size=32, shuffle=True, num_workers=4)
+    test_loader = DataLoader(test_set, batch_size=32, shuffle=False, num_workers=4)
 
     model = SimCLR(gpus=1, num_samples=(len(train_set) + len(test_set)),
                    batch_size=32, dataset=train_loader)
 
-    trainer = pl.Trainer()
+    trainer = pl.Trainer(gpus=1)
     trainer.fit(model, train_loader, test_loader)
     model.freeze()
