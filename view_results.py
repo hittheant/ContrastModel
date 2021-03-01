@@ -15,7 +15,7 @@ if __name__ == '__main__':
 
     image_paths = utils.recursive_folder_image_paths(args.data_dir)
 
-    model = SimCLR(gpus=1, batch_size=32, num_samples=len(image_paths))
+    model = SimCLR(gpus=1, batch_size=12, num_samples=len(image_paths))
     try:
         model.load_from_checkpoint(args.model_dir)
     except RuntimeError as e:
@@ -36,7 +36,7 @@ if __name__ == '__main__':
     y_comp = np.abs(np.array(y) - np.array(y[80]))
     y_comp = np.sum(y_comp, axis=1)
     sort_index = np.argsort(y_comp)
-    print(sort_index[0:5])
+    print(sort_index[0:20])
     for index in sort_index[0:5]:
         image = Image.open(image_paths[index])
         image.save('results/' + str(index) + '.jpeg')
