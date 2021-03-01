@@ -33,7 +33,7 @@ if __name__ == '__main__':
         y[i, :] = y_hat
 
     print(y.shape)
-    y_comp = np.abs(np.array(y) - np.array(y[80]))
+    y_comp = np.abs(np.array(y) - np.array(y[300]))
     y_comp = np.sum(y_comp, axis=1)
     sort_index = np.argsort(y_comp)
     print(sort_index[0:20])
