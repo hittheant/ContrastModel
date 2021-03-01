@@ -24,7 +24,7 @@ if __name__ == '__main__':
     test_loader = DataLoader(test_set, batch_size=12, shuffle=False, num_workers=4)
 
     model = SimCLR(gpus=1, num_samples=(len(train_set) + len(test_set)),
-                   batch_size=32, dataset=train_loader)
+                   batch_size=12, dataset=train_loader)
 
     trainer = pl.Trainer(gpus=1)
     trainer.fit(model, train_loader, test_loader)
