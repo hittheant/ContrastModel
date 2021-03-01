@@ -37,6 +37,6 @@ if __name__ == '__main__':
     y_comp = np.sum(y_comp, axis=1)
     sort_index = np.argsort(y_comp)
     print(sort_index[0:20])
-    for index in sort_index[0:5]:
+    for index in sort_index[0:20]:
         image = Image.open(image_paths[index])
         image.save('results/' + str(index) + '.jpeg')
