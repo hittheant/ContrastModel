@@ -18,16 +18,16 @@ if __name__ == '__main__':
     train_test_ratio = 0.8
 
     if os.path.exists(os.path.join(args.data_dir, 'train')):
-        train_set = ImageFolderDataset(os.path.join(args.data_dir, 'train'), training=True)
-        test_set = ImageFolderDataset(os.path.join(args.data_dir, 'test'), training=False)
+        train_set = ImageFolderDataset(os.path.join(args.data_dir, 'train'))
+        test_set = ImageFolderDataset(os.path.join(args.data_dir, 'test'))
     else:
         files = utils.recursive_folder_image_paths(args.data_dir)
         random.seed(19)
         random.shuffle(files)
         train_files = files[:int(train_test_ratio * len(files))]
         test_files = files[int(train_test_ratio * len(files)):]
-        train_set = ImageFilesDataset(train_files, grayscale=args.grayscale, training=True)
-        test_set = ImageFilesDataset(test_files, grayscale=args.grayscale, training=False)
+        train_set = ImageFilesDataset(train_files)
+        test_set = ImageFilesDataset(test_files)
 
     train_loader = DataLoader(train_set, batch_size=12, shuffle=True, num_workers=4)
     test_loader = DataLoader(test_set, batch_size=12, shuffle=False, num_workers=4)

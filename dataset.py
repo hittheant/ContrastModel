@@ -8,7 +8,7 @@ from PIL import Image
 
 class ImageFilesDataset(Dataset):
 
-    def __init__(self, image_paths, grayscale=False, training=False):
+    def __init__(self, image_paths):
         super().__init__()
 
         assert len(image_paths) > 0
@@ -29,6 +29,6 @@ class ImageFilesDataset(Dataset):
 
 class ImageFolderDataset(ImageFilesDataset):
 
-    def __init__(self, image_dir, grayscale=False, training=False):
+    def __init__(self, image_dir):
         image_paths = utils.recursive_folder_image_paths(image_dir)
-        super().__init__(image_paths, grayscale, training)
+        super().__init__(image_paths)
