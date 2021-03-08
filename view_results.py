@@ -13,6 +13,7 @@ if __name__ == '__main__':
     parser.add_argument('--save_dir', required=True, type=str, help='path to image data directory')
     parser.add_argument('--image_index', type=int, default=42)
     parser.add_argument('--n_images', type=int, default=20)
+    parser.add_argument('--rgb', type=bool, default=True)
     args = parser.parse_args()
 
     image_paths = utils.recursive_folder_image_paths(args.data_dir)
@@ -26,7 +27,8 @@ if __name__ == '__main__':
 
     for i, p in enumerate(tqdm(image_paths)):
         image = Image.open(p)
-        image = image.convert('RGB')
+        if args.rgb:
+            image = image.convert('RGB')
         image = transform(image).unsqueeze_(0)
         y_hat = model_enc(image)
         y_hat = y_hat[0].detach().numpy().reshape(1, -1)

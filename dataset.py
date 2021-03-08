@@ -8,18 +8,20 @@ from PIL import Image
 
 class ImageFilesDataset(Dataset):
 
-    def __init__(self, image_paths):
+    def __init__(self, image_paths, rgb=True):
         super().__init__()
 
         assert len(image_paths) > 0
         random.shuffle(image_paths)
         self.image_paths = image_paths
+        self.rgb = rgb
 
         self.transform = SimCLRTrainDataTransform(input_height=32)
 
     def __getitem__(self, item):
         image = Image.open(self.image_paths[item])
-        image = image.convert('RGB')
+        if self.rgb:
+            image = image.convert('RGB')
         images = self.transform(image)
         return images, 1
 
@@ -29,6 +31,6 @@ class ImageFilesDataset(Dataset):
 
 class ImageFolderDataset(ImageFilesDataset):
 
-    def __init__(self, image_dir):
+    def __init__(self, image_dir, rgb=True):
         image_paths = utils.recursive_folder_image_paths(image_dir)
-        super().__init__(image_paths)
+        super().__init__(image_paths, rgb=rgb)
