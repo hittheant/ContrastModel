@@ -10,6 +10,7 @@ if __name__ == '__main__':
     parser = ArgumentParser(description='Get image edge maps')
     parser.add_argument('--model_dir', required=True, type=str, help='path to image data directory')
     parser.add_argument('--data_dir', required=True, type=str, help='path to image data directory')
+    parser.add_argument('--save_dir', required=True, type=str, help='path to image data directory')
     parser.add_argument('--image_index', type=int, default=42)
     parser.add_argument('--n_images', type=int, default=20)
     args = parser.parse_args()
@@ -36,6 +37,6 @@ if __name__ == '__main__':
     y_comp = np.sum(y_comp, axis=1)
     sort_index = np.argsort(y_comp)
     print(sort_index[0:args.n_images])
-    for index in sort_index[0:args.n_images]:
+    for i, index in enumerate(sort_index[0:args.n_images]):
         image = Image.open(image_paths[index])
-        image.save('results/' + str(index) + '.jpeg')
+        image.save(args.save_dir + str(i) + "_" + str(index) + '.jpeg')
