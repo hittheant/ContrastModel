@@ -10,6 +10,8 @@ if __name__ == '__main__':
     parser = ArgumentParser(description='Get image edge maps')
     parser.add_argument('--model_dir', required=True, type=str, help='path to image data directory')
     parser.add_argument('--data_dir', required=True, type=str, help='path to image data directory')
+    parser.add_argument('--image_index', type=int, default=42)
+    parser.add_argument('--n_images', type=int, default=20)
     args = parser.parse_args()
 
     image_paths = utils.recursive_folder_image_paths(args.data_dir)
@@ -30,10 +32,10 @@ if __name__ == '__main__':
         y[i, :] = y_hat
 
     print(y)
-    y_comp = np.abs(np.array(y) - np.array(y[32]))
+    y_comp = np.abs(np.array(y) - np.array(y[args.image_index]))
     y_comp = np.sum(y_comp, axis=1)
     sort_index = np.argsort(y_comp)
-    print(sort_index[0:20])
-    for index in sort_index[0:20]:
+    print(sort_index[0:args.n_images])
+    for index in sort_index[0:args.n_images]:
         image = Image.open(image_paths[index])
         image.save('results/' + str(index) + '.jpeg')
