@@ -13,7 +13,6 @@ device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 if __name__ == '__main__':
     parser = ArgumentParser(description='Get image edge maps')
     parser.add_argument('--data_dir', required=True, type=str, help='path to image data directory')
-    parser.add_argument('--save_dir', required=True, type=str, help='path to save resulting edge maps')
     args = parser.parse_args()
 
     train_test_ratio = 0.8
