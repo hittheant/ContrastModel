@@ -17,9 +17,6 @@ if __name__ == '__main__':
 
     train_test_ratio = 0.8
 
-    if not os.path.exists(args.save_dir):
-        os.mkdir(args.save_dir)
-
     if os.path.exists(os.path.join(args.data_dir, 'train')):
         train_set = ImageFolderDataset(os.path.join(args.data_dir, 'train'), training=True)
         test_set = ImageFolderDataset(os.path.join(args.data_dir, 'test'), training=False)
