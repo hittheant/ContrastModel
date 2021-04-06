@@ -26,8 +26,8 @@ if __name__ == '__main__':
         random.shuffle(files)
         train_files = files[:int(train_test_ratio * len(files))]
         test_files = files[int(train_test_ratio * len(files)):]
-        train_set = ImageFilesDataset(train_files, rgb=False)
-        test_set = ImageFilesDataset(test_files, rgb=False)
+        train_set = ImageFilesDataset(train_files)
+        test_set = ImageFilesDataset(test_files)
 
     train_loader = DataLoader(train_set, batch_size=12, shuffle=True, num_workers=4)
     test_loader = DataLoader(test_set, batch_size=12, shuffle=False, num_workers=4)
